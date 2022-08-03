@@ -9,3 +9,8 @@ terraform {
 }
 
 provider "aws" {}
+
+# https://github.com/terraform-docs/terraform-docs/issues/371
+data "aws_caller_identity" "this" {
+  count = 0
+}
