@@ -22,10 +22,7 @@ variable "deployment_name" {
 
   validation {
     condition     = length(trimprefix(var.deployment_name, "tecton-")) < 22
-    error_message = <<EOM
-The deployment_name must be less than 22 characters (minus a prefix of 'tecton-' as it will be
-appended if not already)
-EOM
+    error_message = "The variable deployment_name must be less than 22 characters, minus a prefix of 'tecton-' as it will be appended if not already."
   }
 }
 
@@ -37,13 +34,13 @@ variable "spark_role_name" {
 variable "enable_spot_service_linked_role" {
   type        = bool
   default     = true
-  description = "toggle enabling the spot service linked role."
+  description = "Toggle enabling the spot service linked role."
 }
 
 variable "enable_eks_nodegroup_service_linked_role" {
   type        = bool
   default     = true
-  description = "toggle enabling the spot service linked role."
+  description = "Toggle enabling the spot service linked role."
 }
 
 variable "availability_zone_count" {

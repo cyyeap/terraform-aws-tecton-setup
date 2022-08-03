@@ -22,6 +22,10 @@ module "common" {
   additional_s3_read_only_principals    = var.additional_s3_read_only_principals
   enable_spot_service_linked_role       = var.enable_spot_service_linked_role
   enable_elasticache                    = var.enable_elasticache
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "iam" {
@@ -33,6 +37,10 @@ module "iam" {
   spark_access_role = module.common.cross_account_role_name
 
   spark_role_name = var.spark_role_name
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "network" {
@@ -50,6 +58,10 @@ module "network" {
   s3_vpc_endpoint_id                = var.s3_vpc_endpoint_id
   vpc_cidr_block                    = var.vpc_cidr_block
   vpc_id                            = var.vpc_id
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "security_groups" {
@@ -59,10 +71,13 @@ module "security_groups" {
   tags            = local.tags
   vpc_id          = module.network.vpc_id # note: if var.vpc_id specified, network module will return said value
 
-  availability_zone_count     = var.availability_zone_count
   cluster_security_group_id   = var.emr_cluster_security_group_id
   service_security_group_id   = var.emr_service_security_group_id
   enable_security_group_rules = var.enable_security_group_rules
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "debugging" {
@@ -73,4 +88,8 @@ module "debugging" {
   deployment_name = local.deployment_name
 
   cross_account_role_name = var.debugging_cross_account_role_name
+
+  providers = {
+    aws = aws
+  }
 }

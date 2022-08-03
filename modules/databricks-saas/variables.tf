@@ -22,10 +22,7 @@ variable "deployment_name" {
 
   validation {
     condition     = length(trimprefix(var.deployment_name, "tecton-")) < 22
-    error_message = <<EOM
-The deployment_name must be less than 22 characters (minus a prefix of 'tecton-' as it will be
-appended if not already)
-EOM
+    error_message = "The variable deployment_name must be less than 22 characters, minus a prefix of 'tecton-' as it will be appended if not already."
   }
 }
 
@@ -42,10 +39,7 @@ EOD
       ) && (
       length(split("cloud.databricks.com", var.databricks_workspace)) == 1
     )
-    error_message = <<EOM
-The databricks workspace should only be the workspace name, not including the full url and not
-including `cloud.databricks.com`. E.g. `my-workspace.cloud.databricks.com` -> `my-workspace`.
-EOM
+    error_message = "The databricks workspace should only be the workspace name, not including the full url and not including `cloud.databricks.com`. E.g. `my-workspace.cloud.databricks.com` -> `my-workspace`."
   }
 }
 
@@ -57,7 +51,7 @@ variable "spark_role_name" {
 variable "enable_spot_service_linked_role" {
   type        = bool
   default     = true
-  description = "toggle enabling the spot service linked role."
+  description = "Toggle enabling the spot service linked role."
 }
 
 variable "tags" {

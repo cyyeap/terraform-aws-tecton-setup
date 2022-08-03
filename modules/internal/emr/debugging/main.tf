@@ -15,11 +15,11 @@ resource "aws_iam_role_policy_attachment" "emr_debugging_policy" {
   policy_arn = aws_iam_policy.emr_debugging_policy.arn
 }
 
-data "aws_iam_policy" "AmazonEMRFullAccessPolicy_v2" {
+data "aws_iam_policy" "emr_full_access" {
   name = "AmazonEMRFullAccessPolicy_v2"
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEMRFullAccessPolicy_v2" {
+resource "aws_iam_role_policy_attachment" "emr_full_access" {
   role       = var.cross_account_role_name
-  policy_arn = data.aws_iam_policy.AmazonEMRFullAccessPolicy_v2.arn
+  policy_arn = data.aws_iam_policy.emr_full_access.arn
 }

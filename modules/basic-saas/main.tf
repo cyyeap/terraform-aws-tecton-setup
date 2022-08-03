@@ -16,4 +16,8 @@ module "common" {
   cross_account_external_id             = var.cross_account_external_id
   enable_spot_service_linked_role       = var.enable_spot_service_linked_role
   enable_elasticache                    = var.enable_elasticache
+
+  providers = {
+    aws = aws
+  }
 }

@@ -19,6 +19,10 @@ module "common" {
   enable_spot_service_linked_role          = var.enable_spot_service_linked_role
   enable_eks_nodegroup_service_linked_role = var.enable_eks_nodegroup_service_linked_role
   enable_elasticache                       = var.enable_elasticache
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "network" {
@@ -36,6 +40,10 @@ module "network" {
   s3_vpc_endpoint_id                = var.s3_vpc_endpoint_id
   vpc_cidr_block                    = var.vpc_cidr_block
   vpc_id                            = var.vpc_id
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "security_groups" {
@@ -49,4 +57,8 @@ module "security_groups" {
   enable_ingress_vpc_endpoint  = var.enable_ingress_vpc_endpoint
   ingress_allowed_cidr_blocks  = var.ingress_allowed_cidr_blocks
   ingress_load_balancer_public = var.ingress_load_balancer_public
+
+  providers = {
+    aws = aws
+  }
 }

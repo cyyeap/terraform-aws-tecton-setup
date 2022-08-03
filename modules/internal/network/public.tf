@@ -33,9 +33,9 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_internet_gateway" "vpc" {
-  // only create the IG if enable_public_subnets is set to true
-  //   OR we do not have nat_gateways_by_az
-  //   as nat_gateway resources depend on this IG
+  # only create the IG if enable_public_subnets is set to true
+  #   OR we do not have nat_gateways_by_az
+  #   as nat_gateway resources depend on this IG
   count = var.enable_public_subnets || !local.has_nat_gateways_by_az ? 1 : 0
 
   vpc_id = local.vpc_id

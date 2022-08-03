@@ -1,18 +1,3 @@
-locals {
-  _listener_ports = {
-    # These must match the nodePorts of the Ingress service. They match Tecton's public ingress.
-    # The plaintext is just for redirection to https.
-    plaintext = {
-      port     = 31080
-      protocol = "TCP"
-    }
-    tls = {
-      port     = 31443
-      protocol = "TLS"
-    }
-  }
-}
-
 resource "aws_security_group" "rds" {
   name = "${local.deployment_name}-rds"
 
@@ -118,7 +103,7 @@ resource "aws_security_group_rule" "cluster_ingress_node_https" {
 }
 
 resource "aws_security_group_rule" "lb_to_cluster_ingress_port" {
-  for_each = local._listener_ports
+  for_each = local.listener_ports
 
   security_group_id = aws_security_group.node.id
   type              = "ingress"

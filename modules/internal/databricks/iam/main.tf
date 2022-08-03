@@ -1,3 +1,7 @@
+data "aws_iam_role" "spark_role" {
+  name = var.spark_role_name
+}
+
 resource "aws_iam_role" "cross_account_databricks_tecton_access" {
   count = local.is_deployment_type_vpc ? 1 : 0
 

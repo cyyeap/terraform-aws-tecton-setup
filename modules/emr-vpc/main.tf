@@ -43,6 +43,10 @@ module "common" {
   enable_spot_service_linked_role          = var.enable_spot_service_linked_role
   enable_eks_nodegroup_service_linked_role = var.enable_eks_nodegroup_service_linked_role
   enable_elasticache                       = var.enable_elasticache
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "iam" {
@@ -54,6 +58,10 @@ module "iam" {
   spark_access_role = module.common.eks_node_role_name
 
   spark_role_name = var.spark_role_name
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "tecton_network" {
@@ -71,6 +79,10 @@ module "tecton_network" {
   s3_vpc_endpoint_id                = var.s3_vpc_endpoint_id
   vpc_cidr_block                    = var.tecton_vpc_cidr_block
   vpc_id                            = var.vpc_id
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "emr_network" {
@@ -85,12 +97,16 @@ module "emr_network" {
   enable_dynamodb_vpc_endpoint = false
   enable_s3_vpc_endpoint       = false
 
-  // reuse public subnets (+IG) from tecton_network
+  # reuse public subnets (+IG) from tecton_network
   nat_gateways_by_az    = module.tecton_network.nat_gateways_by_az
   enable_public_subnets = false
 
   vpc_cidr_block                    = var.emr_vpc_cidr_block
   enable_vpc_cidr_block_association = var.enable_emr_vpc_cidr_block_association
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "tecton_security_groups" {
@@ -104,6 +120,10 @@ module "tecton_security_groups" {
   enable_ingress_vpc_endpoint  = var.enable_ingress_vpc_endpoint
   ingress_allowed_cidr_blocks  = var.ingress_allowed_cidr_blocks
   ingress_load_balancer_public = var.ingress_load_balancer_public
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "emr_security_groups" {
@@ -113,10 +133,13 @@ module "emr_security_groups" {
   vpc_id          = local.vpc_id
   tags            = local.tags
 
-  availability_zone_count     = var.availability_zone_count
   cluster_security_group_id   = var.emr_cluster_security_group_id
   service_security_group_id   = var.emr_service_security_group_id
   enable_security_group_rules = var.enable_security_group_rules
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "debugging" {
@@ -126,4 +149,8 @@ module "debugging" {
 
   deployment_name         = local.deployment_name
   cross_account_role_name = var.debugging_cross_account_role_name
+
+  providers = {
+    aws = aws
+  }
 }

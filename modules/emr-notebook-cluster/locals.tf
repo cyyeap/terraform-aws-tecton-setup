@@ -64,12 +64,13 @@ locals {
     }
   ]
 
-  // bootstrap_regions
-  // ---
-  // EMR bootstrapping only supports bootstrap scripts from s3 buckets. The current way the s3
-  // client within EMR is retrieving the bootstrap scripts causes a failure to retrieve the file in
-  // certain regions. Currently Tecton supports serving bootstrap scripts from the following
-  // regions. (including us-west-2 by default) Reach out to customer support for further information.
+  /* bootstrap_regions
+      ---
+      EMR bootstrapping only supports bootstrap scripts from s3 buckets. The current way the s3
+      client within EMR is retrieving the bootstrap scripts causes a failure to retrieve the file in
+      certain regions. Currently Tecton supports serving bootstrap scripts from the following
+      regions. (including us-west-2 by default) Reach out to customer support for further information.
+  */
   bootstrap_regions = {
     "eu-central-1" : "-eu-central-1",
     "eu-west-1" : "-eu-west-1",
