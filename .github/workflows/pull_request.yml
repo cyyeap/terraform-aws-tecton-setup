@@ -1,0 +1,116 @@
+name: Pull Request Tests
+
+on:
+  pull_request:
+    paths:
+      - '**.tf'
+      - '**.md'
+      - '.pre-commit-config.yaml'
+  push:
+    branches:
+      - master
+      - initial
+    paths:
+      - '**.tf'
+      - '**.md'
+env:
+  GO_VERSION: "^1.17"
+  TF_LINT_VERSION: "latest"
+  TF_DOCS_VERSION: "v0.16.0"
+
+
+jobs:
+  getModules:
+    name: Get module directories
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+      - name: Build matrix
+        id: matrix
+        run: |
+          DIRS=$(python -c "import json; import glob; print(json.dumps([x.replace('/versions.tf', '') for x in glob.glob('./**/versions.tf', recursive=True)]))")
+          echo "::set-output name=directories::$DIRS"
+    outputs:
+      directories: ${{ steps.matrix.outputs.directories }}
+
+
+  getTerraformMinMaxVersion:
+    name: Get max TF version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Terraform min/max versions
+        id: minMax
+        uses: clowdhaus/terraform-min-max@v1.0.8
+      - name: Print Terraform min/max versions
+        run: |
+          echo "min terraform version: ${{ steps.minMax.outputs.minVersion }}"
+          echo "max terraform version: ${{ steps.minMax.outputs.maxVersion }}"
+    outputs:
+      maxVersion: ${{ steps.minMax.outputs.maxVersion }}
+      minVersion: ${{ steps.minMax.outputs.minVersion }}
+
+
+  preCommitMinVersions:
+    name: Run pre-commit against v${{ needs.getTerraformMinMaxVersion.outputs.minVersion }} (min version) - validate only
+    needs: getTerraformMinMaxVersion
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version:
+          - ${{ needs.getTerraformMinMaxVersion.outputs.minVersion }}
+    env:
+      AWS_DEFAULT_REGION: us-east-1 # needed for 0.13 validation - see https://stackoverflow.com/a/57631204/18163422
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+      - name: Install pre-commit dependencies
+        run: |
+          pip install pre-commit
+      - name: Install Terraform v${{ matrix.version }} (min version)
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ matrix.version }}
+      - name: Run pre-commit against v${{ matrix.version }} (min version)
+        if: ${{ matrix.directory !=  '.' }}
+        run: pre-commit run terraform_validate --color=always --show-diff-on-failure --all-files
+
+
+  preCommitMaxVersion:
+    name: Run pre-commit against v${{ needs.getTerraformMinMaxVersion.outputs.maxVersion }} (max version)
+    runs-on: ubuntu-latest
+    needs: getTerraformMinMaxVersion
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - ${{ needs.getTerraformMinMaxVersion.outputs.maxVersion }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Install Terraform v${{ matrix.version }}
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ matrix.version }}
+      - name: Install pre-commit dependencies
+        run: |
+          pip install pre-commit
+          go install github.com/terraform-docs/terraform-docs@${{ env.TF_DOCS_VERSION }}
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+      - name: Clean pre-commit cache
+        run: pre-commit clean
+      - name: Run pre-commit ${{ matrix.version }} (max version)
+        if: ${{ matrix.version ==  needs.getTerraformMinMaxVersion.outputs.maxVersion }}
+        run: pre-commit run --color=always --show-diff-on-failure --all-files

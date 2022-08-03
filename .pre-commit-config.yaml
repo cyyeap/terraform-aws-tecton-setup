@@ -1,0 +1,36 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  # https://github.com/antonbabenko/pre-commit-terraform/blob/master/README.md#terraform_validate (point 4)
+  - repo: local
+    hooks:
+      - id: terraform_clean
+        name: "Terraform Cleanup"
+        pass_filenames: false
+        language: system
+        entry: |
+          bash -c "find . \(
+            -iname ".terraform*"
+            ! -iname ".terraform-version"
+            ! -iname ".terraform-docs*"
+          \)  -print0 | xargs -0 rm -r; true"
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.64.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+        exclude: (examples)\/.*$ # TODO: fix examples to be included!
+      - id: terraform_docs
+        exclude: (examples)\/.*$ # TODO: fix examples to be included!
+        args:
+          - '--hook-config=--add-to-existing-file=true'
+          - '--hook-config=--create-file-if-not-exist=true'
+          - '--args=--sort-by required'
+      - id: terraform_tflint
+        exclude: (examples)\/.*$ # TODO: fix examples to be included!
