@@ -1,5 +1,9 @@
 # databricks-vpc
 
+## Diagram
+
+![diagram](diagram.png)
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 

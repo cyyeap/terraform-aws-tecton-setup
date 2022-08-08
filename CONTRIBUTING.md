@@ -21,6 +21,8 @@ A quick list of things to keep in mind as you're making changes:
 
 - Use (**conventional commits**)[https://www.conventionalcommits.org/en/v1.0.0]
 - Follow Terraform development guidelines outlined at https://www.terraform-best-practices.com
+- If modules have changed update and re-generate the diagram (via diagram.py in the appropriate module)
+  - Run `python3 diagram.py` (`pip install diagrams` if necessary) to generate the new png
 - Run the pre-commit hooks prior to submitting a pull request
 
     ```shell
