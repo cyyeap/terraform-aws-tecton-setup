@@ -16,6 +16,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "tecton" {
   }
 }
 
+resource "aws_s3_bucket_ownership_controls" "bucket_owner_enforced" {
+  bucket = aws_s3_bucket.tecton.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 resource "aws_s3_bucket_acl" "tecton" {
   bucket = aws_s3_bucket.tecton.id
   acl    = "private"
