@@ -25,12 +25,9 @@ repos:
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
-        exclude: (examples)\/.*$ # TODO: fix examples to be included!
       - id: terraform_docs
-        exclude: (examples)\/.*$ # TODO: fix examples to be included!
         args:
           - '--hook-config=--add-to-existing-file=true'
           - '--hook-config=--create-file-if-not-exist=true'
           - '--args=--sort-by required'
       - id: terraform_tflint
-        exclude: (examples)\/.*$ # TODO: fix examples to be included!

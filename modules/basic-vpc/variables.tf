@@ -28,7 +28,7 @@ variable "deployment_name" {
 
 variable "spark_role_name" {
   type        = string
-  description = "The name of the spark role used for Databricks to attach policies to."
+  description = "The name of the spark role used to attach policies to."
 }
 
 variable "enable_spot_service_linked_role" {

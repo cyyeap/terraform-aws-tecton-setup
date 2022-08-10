@@ -1,9 +1,22 @@
+/*
+This example assumes Tecton and Databricks are in different accounts
+    if databricks is deployed to the same account as tecton please
+    refer to the databricks-saas example
+*/
+
+# Tecton
 provider "aws" {
-  region = var.region
+  region = "us-west-2"
+}
+
+# Databricks
+provider "aws" {
+  region = "us-west-2"
+  alias  = "databricks"
 }
 
 module "tecton" {
-  source = "../../modules/databricks-vpc/"
+  source = "../../modules/databricks-saas/"
 
   deployment_name                       = var.deployment_name
   databricks_workspace                  = var.databricks_workspace
@@ -11,10 +24,8 @@ module "tecton" {
   cross_account_assume_role_allowed_ids = var.cross_account_assume_role_allowed_ids
 
   providers = {
-    aws = aws
-    // assumes databricks will be deployed to the same AWS account
-    //  see databricks-vpc-cross-account for the alternative
-    aws.databricks = aws
+    aws            = aws
+    aws.databricks = aws.databricks
   }
 }
 
