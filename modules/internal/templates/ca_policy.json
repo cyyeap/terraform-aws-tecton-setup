@@ -68,6 +68,16 @@
                 "arn:aws:iam::${ACCOUNT_ID}:policy/tecton-*",
                 "arn:aws:iam::${ACCOUNT_ID}:role/tecton-*"
             ]
+        },
+        {
+            "Sid": "ReadTectonDeploymentSecret",
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:ListSecrets"
+            ],
+            "Resource": "arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:tecton-${DEPLOYMENT_NAME}/DEPLOYMENT_INFO"
         }
     ]
 }

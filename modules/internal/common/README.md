@@ -54,6 +54,8 @@
 | [aws_s3_bucket_ownership_controls.bucket_owner_enforced](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_ownership_controls) | resource |
 | [aws_s3_bucket_policy.read_only_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.tecton](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [aws_secretsmanager_secret.deployment_info](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret) | resource |
+| [aws_secretsmanager_secret_version.deployment_info](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret_version) | resource |
 | [random_id.external_id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.cross_account_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -72,6 +74,7 @@
 | <a name="input_spark_role_name"></a> [spark\_role\_name](#input\_spark\_role\_name) | The name of the spark role to attach default policies to. | `string` | n/a | yes |
 | <a name="input_additional_s3_read_only_principals"></a> [additional\_s3\_read\_only\_principals](#input\_additional\_s3\_read\_only\_principals) | Additional AWS principals that should be given read-only access to the Tecton S3 bucket<br>via the bucket policy. | `list(string)` | `[]` | no |
 | <a name="input_cross_account_external_id"></a> [cross\_account\_external\_id](#input\_cross\_account\_external\_id) | A string ID to be required when using the cross-account role. If none specified one will<br>be generated (recommended). | `string` | `null` | no |
+| <a name="input_deployment_info"></a> [deployment\_info](#input\_deployment\_info) | Deployment information passed to the Tecton cluster as it relates to<br>tecton-ai/terraform-aws-tecton-setup. Note: resources generated as part of this common module<br>will already be added to the json string that gets stored and output. | `any` | `null` | no |
 | <a name="input_enable_eks_ingress_vpc_endpoint"></a> [enable\_eks\_ingress\_vpc\_endpoint](#input\_enable\_eks\_ingress\_vpc\_endpoint) | Toggle enabling resources supporting the EKS Ingress VPC Endpoint for in-VPC communication. | `bool` | `true` | no |
 | <a name="input_enable_eks_nodegroup_service_linked_role"></a> [enable\_eks\_nodegroup\_service\_linked\_role](#input\_enable\_eks\_nodegroup\_service\_linked\_role) | toggle enabling the EKS nodegroup service linked role. Only applicable when deployment\_type is vpc. | `bool` | `true` | no |
 | <a name="input_enable_elasticache"></a> [enable\_elasticache](#input\_enable\_elasticache) | Toggle enabling resources supporting the ElastiCache. | `bool` | `false` | no |

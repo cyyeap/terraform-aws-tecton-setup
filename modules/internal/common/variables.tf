@@ -17,6 +17,16 @@ variable "deployment_type" {
   }
 }
 
+variable "deployment_info" {
+  description = <<EOV
+Deployment information passed to the Tecton cluster as it relates to
+tecton-ai/terraform-aws-tecton-setup. Note: resources generated as part of this common module
+will already be added to the json string that gets stored and output.
+EOV
+  type        = any
+  default     = null
+}
+
 variable "cross_account_external_id" {
   default     = null
   type        = string
