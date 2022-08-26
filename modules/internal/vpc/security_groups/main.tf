@@ -20,8 +20,8 @@ resource "aws_security_group" "rds" {
   )
 }
 
-resource "aws_security_group" "control" {
-  name        = "${local.deployment_name}-control"
+resource "aws_security_group" "cluster" {
+  name        = "${local.deployment_name}-cluster"
   description = "Tecton cluster control"
   vpc_id      = var.vpc_id
 
@@ -44,7 +44,7 @@ resource "aws_security_group_rule" "public_ingress" {
   description       = "Allow communication with the Tecton cluster API Server"
   from_port         = 443
   protocol          = "tcp"
-  security_group_id = aws_security_group.control.id
+  security_group_id = aws_security_group.cluster.id
   to_port           = 443
   type              = "ingress"
 }
@@ -85,7 +85,7 @@ resource "aws_security_group_rule" "node_ingress_cluster" {
   from_port                = 1025
   protocol                 = "tcp"
   security_group_id        = aws_security_group.node.id
-  source_security_group_id = aws_security_group.control.id
+  source_security_group_id = aws_security_group.cluster.id
   to_port                  = 65535
   type                     = "ingress"
 
@@ -95,7 +95,7 @@ resource "aws_security_group_rule" "cluster_ingress_node_https" {
   description              = "Allow pods to communicate with the cluster API Server"
   from_port                = 443
   protocol                 = "tcp"
-  security_group_id        = aws_security_group.control.id
+  security_group_id        = aws_security_group.cluster.id
   source_security_group_id = aws_security_group.node.id
   to_port                  = 443
   type                     = "ingress"
@@ -120,8 +120,8 @@ resource "aws_security_group_rule" "lb_to_cluster_ingress_port" {
   cidr_blocks = local.has_ingress_allowed_cidr_blocks ? local.lb_ingress_cidr_blocks : ["0.0.0.0/0"]
 }
 
-resource "aws_security_group" "ingress_vpc_endpoint" {
-  count = var.enable_ingress_vpc_endpoint ? 1 : 0
+resource "aws_security_group" "cluster_vpc_endpoint" {
+  count = var.enable_cluster_vpc_endpoint ? 1 : 0
 
   name = format(
     "%s-ingress-vpc-endpoint", local.deployment_name,
@@ -149,13 +149,13 @@ resource "aws_security_group" "ingress_vpc_endpoint" {
   )
 }
 
-resource "aws_security_group_rule" "ingress_vpc_endpoint" {
-  count = var.enable_ingress_vpc_endpoint ? 1 : 0
+resource "aws_security_group_rule" "cluster_vpc_endpoint" {
+  count = var.enable_cluster_vpc_endpoint ? 1 : 0
 
   description              = "Allow all ingress from Tecton cluster nodes"
   from_port                = 0
   protocol                 = "-1"
-  security_group_id        = aws_security_group.ingress_vpc_endpoint[0].id
+  security_group_id        = aws_security_group.cluster_vpc_endpoint[0].id
   source_security_group_id = aws_security_group.node.id
   to_port                  = 65535
   type                     = "ingress"

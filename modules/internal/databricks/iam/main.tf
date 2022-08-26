@@ -22,7 +22,19 @@ data "aws_iam_policy_document" "cross_account_databricks_tecton_access" {
       type = "AWS"
     }
     actions = ["sts:AssumeRole"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "sts:ExternalId"
+      values   = [random_id.external_id[0].id]
+    }
   }
+}
+
+resource "random_id" "external_id" {
+  count = local.is_deployment_type_vpc ? 1 : 0
+
+  byte_length = 16
 }
 
 resource "aws_iam_policy" "cross_account_databricks_tecton_access" {

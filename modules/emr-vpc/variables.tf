@@ -155,12 +155,12 @@ variable "enable_eks_nodegroup_service_linked_role" {
   description = "toggle enabling the EKS nodegroup service linked role. Only applicable when deployment_type is vpc."
 }
 
-variable "enable_ingress_vpc_endpoint" {
+variable "enable_cluster_vpc_endpoint" {
   type        = bool
   default     = true
   description = <<EOV
-Toggle enabling resources supporting the EKS Ingress VPC Endpoint for in-VPC
-communication.
+Toggle enabling resources supporting the Tecton cluster ingress VPC endpoint for in-VPC
+communication. Should always be enabled when Tecton cluster is not publicly available.
 EOV
 }
 

@@ -50,11 +50,11 @@
 | <a name="input_emr_cluster_security_group_id"></a> [emr\_cluster\_security\_group\_id](#input\_emr\_cluster\_security\_group\_id) | Optionally provide a security group to place EMR cluster resources in. It is<br>recommended to use the defaults (module will create the security group). | `string` | `null` | no |
 | <a name="input_emr_service_security_group_id"></a> [emr\_service\_security\_group\_id](#input\_emr\_service\_security\_group\_id) | Optionally provide a security group to place EMR service resources in. It is<br>recommended to use the defaults (module will create the security group). | `string` | `null` | no |
 | <a name="input_emr_vpc_cidr_block"></a> [emr\_vpc\_cidr\_block](#input\_emr\_vpc\_cidr\_block) | The VPC cidr block for the private and public subnets which will be created. Both<br>`emr_vpc_cidr_block` and `tecton_vpc_cidr_block` will be associated with the created (or specified)<br>VPC. The smallest acceptable prefix is /18. | `string` | `"10.38.0.0/16"` | no |
+| <a name="input_enable_cluster_vpc_endpoint"></a> [enable\_cluster\_vpc\_endpoint](#input\_enable\_cluster\_vpc\_endpoint) | Toggle enabling resources supporting the Tecton cluster ingress VPC endpoint for in-VPC<br>communication. Should always be enabled when Tecton cluster is not publicly available. | `bool` | `true` | no |
 | <a name="input_enable_dynamodb_vpc_endpoint"></a> [enable\_dynamodb\_vpc\_endpoint](#input\_enable\_dynamodb\_vpc\_endpoint) | Toggle enabling the creation of the DynamoDB VPC endpoint. | `bool` | `true` | no |
 | <a name="input_enable_eks_nodegroup_service_linked_role"></a> [enable\_eks\_nodegroup\_service\_linked\_role](#input\_enable\_eks\_nodegroup\_service\_linked\_role) | toggle enabling the EKS nodegroup service linked role. Only applicable when deployment\_type is vpc. | `bool` | `true` | no |
 | <a name="input_enable_elasticache"></a> [enable\_elasticache](#input\_enable\_elasticache) | Toggle enabling resources supporting the ElastiCache. | `bool` | `false` | no |
 | <a name="input_enable_emr_vpc_cidr_block_association"></a> [enable\_emr\_vpc\_cidr\_block\_association](#input\_enable\_emr\_vpc\_cidr\_block\_association) | Only used when `vpc_id` is specified. Toggle enabling the<br>`aws_vpc_ipv4_cidr_block_association` between the given `vpc_cidr_block` and the VPC specified by<br>`vpc_id`. Should only be disabled if the VPC specified VPC cidr exists and is already associated<br>with the specified VPC. | `bool` | `true` | no |
-| <a name="input_enable_ingress_vpc_endpoint"></a> [enable\_ingress\_vpc\_endpoint](#input\_enable\_ingress\_vpc\_endpoint) | Toggle enabling resources supporting the EKS Ingress VPC Endpoint for in-VPC<br>communication. | `bool` | `true` | no |
 | <a name="input_enable_s3_vpc_endpoint"></a> [enable\_s3\_vpc\_endpoint](#input\_enable\_s3\_vpc\_endpoint) | Toggle enabling the creation of the s3 VPC endpoint. | `bool` | `true` | no |
 | <a name="input_enable_security_group_rules"></a> [enable\_security\_group\_rules](#input\_enable\_security\_group\_rules) | Disable the creation of security group rules. It is recommended<br>to use the defaults (module will create the security group rules associated<br>with the appropriate security group). | `bool` | `true` | no |
 | <a name="input_enable_spot_service_linked_role"></a> [enable\_spot\_service\_linked\_role](#input\_enable\_spot\_service\_linked\_role) | Toggle enabling the spot service linked role. | `bool` | `true` | no |
@@ -80,12 +80,10 @@
 | <a name="output_dynamodb_vpc_endpoint_id"></a> [dynamodb\_vpc\_endpoint\_id](#output\_dynamodb\_vpc\_endpoint\_id) | The DynamoDB VPC endpoint ID (if enabled). |
 | <a name="output_eks_management_role_name"></a> [eks\_management\_role\_name](#output\_eks\_management\_role\_name) | The name of the EKS management IAM role. |
 | <a name="output_eks_node_role_name"></a> [eks\_node\_role\_name](#output\_eks\_node\_role\_name) | The name of the EKS node IAM role. |
-| <a name="output_ingress_vpc_endpoint_security_group_id"></a> [ingress\_vpc\_endpoint\_security\_group\_id](#output\_ingress\_vpc\_endpoint\_security\_group\_id) | If deployment\_type is vpc, the ID of the ingress VPC endpoint. |
+| <a name="output_ingress_vpc_endpoint_security_group_id"></a> [ingress\_vpc\_endpoint\_security\_group\_id](#output\_ingress\_vpc\_endpoint\_security\_group\_id) | If deployment\_type is vpc, the ID of the cluster ingress VPC endpoint. |
 | <a name="output_master_role_name"></a> [master\_role\_name](#output\_master\_role\_name) | The name of the EMR master role. |
 | <a name="output_nat_gateway_ips"></a> [nat\_gateway\_ips](#output\_nat\_gateway\_ips) | The IDs of the NAT gateway public IPs. |
-| <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | The IDs of the private subnets. |
-| <a name="output_private_subnet_route_table_ids"></a> [private\_subnet\_route\_table\_ids](#output\_private\_subnet\_route\_table\_ids) | The IDs of the private subnet route tables. |
-| <a name="output_public_subnet_ids"></a> [public\_subnet\_ids](#output\_public\_subnet\_ids) | The IDs of the public subnets. |
+| <a name="output_private_subnet_route_table_ids"></a> [private\_subnet\_route\_table\_ids](#output\_private\_subnet\_route\_table\_ids) | A map of the IDs of the private subnet route tables. |
 | <a name="output_public_subnet_route_table_ids"></a> [public\_subnet\_route\_table\_ids](#output\_public\_subnet\_route\_table\_ids) | The IDs of the public subnet route tables. |
 | <a name="output_region"></a> [region](#output\_region) | The AWS region. |
 | <a name="output_roles"></a> [roles](#output\_roles) | A mapping of the IAM roles. |
@@ -96,6 +94,7 @@
 | <a name="output_spark_instance_profile_name"></a> [spark\_instance\_profile\_name](#output\_spark\_instance\_profile\_name) | The name of the spark instance profile. |
 | <a name="output_spark_role_arn"></a> [spark\_role\_arn](#output\_spark\_role\_arn) | The ARN of the Spark IAM role. |
 | <a name="output_spark_role_name"></a> [spark\_role\_name](#output\_spark\_role\_name) | The name of the Spark IAM role. |
-| <a name="output_vpc_cidr_blocks"></a> [vpc\_cidr\_blocks](#output\_vpc\_cidr\_blocks) | The CIDR blocks associated with the VPC. |
+| <a name="output_subnet_ids"></a> [subnet\_ids](#output\_subnet\_ids) | A map of the subnet IDs. |
+| <a name="output_vpc_cidr_blocks"></a> [vpc\_cidr\_blocks](#output\_vpc\_cidr\_blocks) | The CIDR block(s) associated with the VPC. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

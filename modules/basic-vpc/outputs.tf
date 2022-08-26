@@ -5,7 +5,7 @@ output "deployment_name" {
 
 output "vpc_id" {
   description = "The ID of the VPC."
-  value       = local.vpc_id
+  value       = local.deployment_info.network.vpc_id
 }
 
 output "vpc_cidr_block" {
@@ -54,13 +54,13 @@ output "security_group_ids" {
 }
 
 output "ingress_vpc_endpoint_security_group_id" {
-  description = "If deployment_type is vpc, the ID of the ingress VPC endpoint."
-  value       = module.security_groups.ingress_vpc_endpoint_id
+  description = "If deployment_type is vpc, the ID of the cluster ingress VPC endpoint."
+  value       = module.security_groups.cluster_vpc_endpoint_id
 }
 
 output "roles" {
   description = "A mapping of the IAM roles."
-  value       = local.roles
+  value       = module.common.roles
 }
 
 output "cross_account_role_arn" {
@@ -80,7 +80,7 @@ output "cross_account_external_id" {
 
 output "eks_management_role_name" {
   description = "The name of the EKS management IAM role."
-  value       = module.common.eks_management_role_name
+  value       = module.common.eks_cluster_role_name
 }
 
 output "eks_node_role_name" {

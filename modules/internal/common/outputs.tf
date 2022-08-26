@@ -13,13 +13,13 @@ output "cross_account_external_id" {
   value       = local.cross_account_external_id
 }
 
-output "eks_management_role_name" {
-  description = "If deployment_type is vpc, the name of the EKS management role."
-  value       = local.is_deployment_type_vpc ? aws_iam_role.eks_management_role[0].name : null
+output "eks_cluster_role_name" {
+  description = "If deployment_type is vpc, the name of the EKS cluster role."
+  value       = local.is_deployment_type_vpc ? aws_iam_role.eks_cluster_role[0].name : null
 }
 
 output "eks_node_role_name" {
-  description = "If deployment_type is vpc, the name of the EKS node role."
+  description = "If deployment_type is vpc, the name of the EKS cluster node role."
   value       = local.is_deployment_type_vpc ? aws_iam_role.eks_node_role[0].name : null
 }
 
@@ -41,4 +41,16 @@ output "region" {
 output "roles" {
   description = "A mapping of the IAM roles."
   value       = local.roles
+}
+
+output "spot_service_linked_role_arn" {
+  value = aws_iam_service_linked_role.spot[0].arn
+}
+
+output "eks_nodegroup_service_linked_role_arn" {
+  value = aws_iam_service_linked_role.eks_nodegroup[0].arn
+}
+
+output "account_id" {
+  value = local.account_id
 }

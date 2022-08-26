@@ -55,7 +55,10 @@ output "security_group_ids" {
 
 output "roles" {
   description = "A mapping of the IAM roles."
-  value       = local.roles
+  value = {
+    cross_account_role_name = module.common.cross_account_role_name
+    spark_role_name         = module.iam.spark_role_name
+  }
 }
 
 output "s3_bucket" {

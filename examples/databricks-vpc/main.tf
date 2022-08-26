@@ -7,6 +7,7 @@ module "tecton" {
 
   deployment_name                       = var.deployment_name
   databricks_workspace                  = var.databricks_workspace
+  databricks_instance_profile_arn       = var.databricks_instance_profile_arn
   spark_role_name                       = var.spark_role_name
   cross_account_assume_role_allowed_ids = var.cross_account_assume_role_allowed_ids
 
@@ -35,6 +36,11 @@ variable "databricks_workspace" {
 The Databricks workspace name not including the full url and not including `cloud.databricks.com`.
 For example: `my-workspace.cloud.databricks.com` -> `my-workspace`.
 EOD
+}
+
+variable "databricks_instance_profile_arn" {
+  type        = string
+  description = "The instance profile arn associated with the Databricks nodes in the Databricks workspace."
 }
 
 variable "spark_role_name" {

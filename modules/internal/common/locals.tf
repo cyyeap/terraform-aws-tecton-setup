@@ -25,7 +25,7 @@ locals {
     local.roles_vpc,
   )
   roles_vpc = local.is_deployment_type_vpc ? {
-    eks_cluster_role_name = aws_iam_role.eks_management_role[0].name
+    eks_cluster_role_name = aws_iam_role.eks_cluster_role[0].name
     eks_node_role_name    = aws_iam_role.eks_node_role[0].name
   } : {}
 }

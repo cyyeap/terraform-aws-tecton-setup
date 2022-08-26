@@ -19,7 +19,7 @@ module "emr_notebook_cluster" {
   count = var.enable_notebook_cluster ? 1 : 0
 
   deployment_name           = var.deployment_name
-  subnet_ids                = module.tecton.private_subnet_ids
+  subnet_ids                = module.tecton.subnet_ids.emr
   instance_profile_arn      = module.tecton.spark_instance_profile_arn
   service_role_id           = module.tecton.master_role_name
   cluster_security_group_id = module.tecton.security_group_ids.emr.cluster

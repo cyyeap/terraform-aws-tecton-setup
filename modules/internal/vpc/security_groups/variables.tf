@@ -23,12 +23,12 @@ The ID of a pre-existing VPC to deploy the networking resources to. By default
 EOV
 }
 
-variable "enable_ingress_vpc_endpoint" {
+variable "enable_cluster_vpc_endpoint" {
   type        = bool
   default     = true
   description = <<EOV
-Toggle enabling resources supporting the EKS Ingress VPC Endpoint for in-VPC
-communication.
+Toggle enabling resources supporting the Tecton cluster ingress VPC endpoint for in-VPC
+communication. Should always be enabled when Tecton cluster is not publicly available.
 EOV
 }
 

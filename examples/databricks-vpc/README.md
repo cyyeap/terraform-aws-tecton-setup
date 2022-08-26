@@ -40,6 +40,7 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cross_account_assume_role_allowed_ids"></a> [cross\_account\_assume\_role\_allowed\_ids](#input\_cross\_account\_assume\_role\_allowed\_ids) | A list of AWS account IDs allowed to assume the cross-account role(s). This should be an<br>AWS account ID that is provided by your Tecton rep. | `list(string)` | n/a | yes |
+| <a name="input_databricks_instance_profile_arn"></a> [databricks\_instance\_profile\_arn](#input\_databricks\_instance\_profile\_arn) | The instance profile arn associated with the Databricks nodes in the Databricks workspace. | `string` | n/a | yes |
 | <a name="input_databricks_workspace"></a> [databricks\_workspace](#input\_databricks\_workspace) | The Databricks workspace name not including the full url and not including `cloud.databricks.com`.<br>For example: `my-workspace.cloud.databricks.com` -> `my-workspace`. | `string` | n/a | yes |
 | <a name="input_deployment_name"></a> [deployment\_name](#input\_deployment\_name) | A unique deployment name. | `string` | n/a | yes |
 | <a name="input_spark_role_name"></a> [spark\_role\_name](#input\_spark\_role\_name) | The name of an existing spark role to attach policies to. | `string` | n/a | yes |

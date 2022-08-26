@@ -43,6 +43,11 @@ EOD
   }
 }
 
+variable "databricks_instance_profile_arn" {
+  type        = string
+  description = "The instance profile arn associated with the Databricks nodes in the Databricks workspace."
+}
+
 variable "spark_role_name" {
   type        = string
   description = "The name of the spark role used for Databricks to attach policies to."
@@ -94,12 +99,12 @@ EOV
   }
 }
 
-variable "enable_ingress_vpc_endpoint" {
+variable "enable_cluster_vpc_endpoint" {
   type        = bool
   default     = true
   description = <<EOV
-Toggle enabling resources supporting the EKS Ingress VPC Endpoint for in-VPC
-communication.
+Toggle enabling resources supporting the Tecton cluster ingress VPC endpoint for in-VPC
+communication. Should always be enabled when Tecton cluster is not publicly available.
 EOV
 }
 
