@@ -12,8 +12,8 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.25.0 |
-| <a name="provider_aws.databricks"></a> [aws.databricks](#provider\_aws.databricks) | 4.25.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3 |
+| <a name="provider_aws.databricks"></a> [aws.databricks](#provider\_aws.databricks) | >= 3 |
 
 ## Modules
 

@@ -6,20 +6,6 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
-  # https://github.com/antonbabenko/pre-commit-terraform/blob/master/README.md#terraform_validate (point 4)
-  - repo: local
-    hooks:
-      - id: terraform_clean
-        name: "Terraform Cleanup"
-        pass_filenames: false
-        language: system
-        entry: |
-          bash -c "find . \(
-            -iname ".terraform*"
-            ! -iname ".terraform-version"
-            ! -iname ".terraform-docs*"
-          \)  -print0 | xargs -0 rm -r; true"
-
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.64.0
     hooks:
@@ -30,4 +16,5 @@ repos:
           - '--hook-config=--add-to-existing-file=true'
           - '--hook-config=--create-file-if-not-exist=true'
           - '--args=--sort-by required'
+          - '--args=--lockfile=false'
       - id: terraform_tflint
