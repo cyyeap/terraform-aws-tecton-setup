@@ -1,11 +1,11 @@
-resource "aws_iam_role" "cross_account_role" {
-  name                 = "${local.deployment_name}-cross-account-role"
-  assume_role_policy   = data.aws_iam_policy_document.cross_account_role.json
+resource "aws_iam_role" "cross_account" {
+  name                 = "${local.deployment_name}-cross-account"
+  assume_role_policy   = data.aws_iam_policy_document.cross_account.json
   max_session_duration = 43200
   tags                 = local.tags
 }
 
-data "aws_iam_policy_document" "cross_account_role" {
+data "aws_iam_policy_document" "cross_account" {
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
@@ -21,8 +21,8 @@ data "aws_iam_policy_document" "cross_account_role" {
   }
 }
 
-resource "aws_iam_policy" "cross_account_policy" {
-  name = "${local.deployment_name}-cross-account-policy"
+resource "aws_iam_policy" "cross_account" {
+  name = "${local.deployment_name}-cross-account"
   policy = templatefile("${local.templates_dir}/ca_policy.json", {
     ACCOUNT_ID      = local.account_id
     DEPLOYMENT_NAME = local.deployment_name
@@ -32,13 +32,13 @@ resource "aws_iam_policy" "cross_account_policy" {
   tags = local.tags
 }
 
-resource "aws_iam_role_policy_attachment" "cross_account_policy_attachment" {
-  policy_arn = aws_iam_policy.cross_account_policy.arn
-  role       = aws_iam_role.cross_account_role.name
+resource "aws_iam_role_policy_attachment" "cross_account" {
+  policy_arn = aws_iam_policy.cross_account.arn
+  role       = aws_iam_role.cross_account.name
 }
 
-resource "aws_iam_policy" "common_spark_policy" {
-  name = "${local.deployment_name}-common-spark-policy"
+resource "aws_iam_policy" "common_spark" {
+  name = "${local.deployment_name}-common-spark"
   policy = templatefile("${local.templates_dir}/spark_policy.json", {
     ACCOUNT_ID      = local.account_id
     DEPLOYMENT_NAME = local.deployment_name
@@ -47,7 +47,7 @@ resource "aws_iam_policy" "common_spark_policy" {
   tags = local.tags
 }
 
-resource "aws_iam_role_policy_attachment" "common_spark_policy_attachment" {
-  policy_arn = aws_iam_policy.common_spark_policy.arn
+resource "aws_iam_role_policy_attachment" "common_spark" {
+  policy_arn = aws_iam_policy.common_spark.arn
   role       = var.spark_role_name
 }

@@ -15,7 +15,7 @@ resource "aws_iam_role_policy_attachment" "cross_account_1" {
   count = local.is_deployment_type_vpc ? 1 : 0
 
   policy_arn = aws_iam_policy.cross_account_1[0].arn
-  role       = aws_iam_role.cross_account_role.name
+  role       = aws_iam_role.cross_account.name
 }
 
 resource "aws_iam_policy" "cross_account_2" {
@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "cross_account_2" {
   count = local.is_deployment_type_vpc ? 1 : 0
 
   policy_arn = aws_iam_policy.cross_account_2[0].arn
-  role       = aws_iam_role.cross_account_role.name
+  role       = aws_iam_role.cross_account.name
 }
 
 resource "aws_iam_policy" "cross_account_eks" {
@@ -53,7 +53,7 @@ resource "aws_iam_role_policy_attachment" "cross_account_eks" {
   count = local.is_deployment_type_vpc ? 1 : 0
 
   policy_arn = aws_iam_policy.cross_account_eks[0].arn
-  role       = aws_iam_role.cross_account_role.name
+  role       = aws_iam_role.cross_account.name
 }
 
 resource "aws_iam_policy" "cross_account_eks_vpc_endpoint" {
@@ -70,7 +70,7 @@ resource "aws_iam_role_policy_attachment" "cross_account_eks_vpc_endpoint" {
   count = local.is_deployment_type_vpc && var.enable_eks_ingress_vpc_endpoint ? 1 : 0
 
   policy_arn = aws_iam_policy.cross_account_eks_vpc_endpoint[0].arn
-  role       = aws_iam_role.cross_account_role.name
+  role       = aws_iam_role.cross_account.name
 }
 
 resource "aws_iam_policy" "cross_account_elasticache" {
@@ -89,5 +89,5 @@ resource "aws_iam_role_policy_attachment" "cross_account_elasticache" {
   count = local.is_deployment_type_vpc && var.enable_elasticache ? 1 : 0
 
   policy_arn = aws_iam_policy.cross_account_elasticache[0].arn
-  role       = aws_iam_role.cross_account_role.name
+  role       = aws_iam_role.cross_account.name
 }
