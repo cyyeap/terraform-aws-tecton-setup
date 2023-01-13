@@ -47,6 +47,21 @@ output "public_subnet_ids_by_az" {
   )
 }
 
+output "private_subnet_route_table_ids_by_az" {
+  description = "A map of the private subnet route table IDs by their respective availability zone. (`{availability_zone_name: route_table_id}`)"
+  value = zipmap(
+    slice(data.aws_availability_zones.available.names, 0, local.availability_zone_count),
+    aws_route_table.private[*].id
+  )
+}
+
+output "public_subnet_route_table_ids_by_az" {
+  description = "A map of the public subnet route table IDs by their respective availability zone. (`{availability_zone_name: route_table_id}`)"
+  value = zipmap(
+    slice(data.aws_availability_zones.available.names, 0, local.availability_zone_count),
+    aws_route_table.public[*].id
+  )
+}
 
 output "private_subnet_route_table_ids" {
   description = "The IDs of the private subnet route tables."
