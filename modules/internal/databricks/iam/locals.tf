@@ -5,6 +5,9 @@ module "deployment_name" {
 
 locals {
   deployment_name = module.deployment_name.deployment_name
+  s3_bucket_arns = var.s3_bucket_arns != null ? var.s3_bucket_arns : [
+    format("arn:aws:s3:::tecton-%s", var.deployment_name),
+  ]
 
   account_id             = data.aws_caller_identity.current.account_id
   databricks_account_id  = data.aws_caller_identity.databricks.id
