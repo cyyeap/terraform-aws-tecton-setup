@@ -3,7 +3,7 @@ provider "aws" {
   region = "us-west-2"
 }
 
-module "privatelink-corss-vpc" {
+module "privatelink_cross_vpc" {
   source                                    = "../../modules/privatelink-cross-vpc"
   vpc_id                                    = var.vpc_id
   vpc_endpoint_subnet_ids                   = var.vpc_endpoint_subnet_ids
@@ -49,7 +49,7 @@ variable "vpc_endpoint_security_group_egress_cidrs" {
 
 output "caller_identity" {
   description = "Current caller identity"
-  value       = module.privatelink-corss-vpc.caller_identity
+  value       = module.privatelink_cross_vpc.caller_identity
 }
 
 terraform {

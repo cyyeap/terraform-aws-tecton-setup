@@ -36,7 +36,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_privatelink-corss-vpc"></a> [privatelink-corss-vpc](#module\_privatelink-corss-vpc) | ../../modules/privatelink-cross-vpc | n/a |
+| <a name="module_privatelink_cross_vpc"></a> [privatelink\_cross\_vpc](#module\_privatelink\_cross\_vpc) | ../../modules/privatelink-cross-vpc | n/a |
 
 ## Resources
 
