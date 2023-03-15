@@ -52,6 +52,18 @@ with the specified VPC.
 EOV
 }
 
+variable "enable_vpc_dns_support" {
+  default     = true
+  description = "A boolean flag to enable/disable DNS support in the VPC."
+  type        = bool
+}
+
+variable "enable_vpc_dns_hostnames" {
+  default     = true
+  description = "A boolean flag to enable/disable DNS hostnames in the VPC."
+  type        = bool
+}
+
 variable "dynamodb_vpc_endpoint_id" {
   type        = string
   default     = null

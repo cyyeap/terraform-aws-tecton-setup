@@ -1,7 +1,9 @@
 resource "aws_vpc" "tecton" {
   count = local.has_vpc_id ? 0 : 1
 
-  cidr_block = var.vpc_cidr_block
+  cidr_block           = var.vpc_cidr_block
+  enable_dns_support   = var.enable_vpc_dns_support
+  enable_dns_hostnames = var.enable_vpc_dns_hostnames
   tags = {
     Name = local.deployment_name
   }
