@@ -45,4 +45,5 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_caller_identity"></a> [caller\_identity](#output\_caller\_identity) | Current caller identity |
+| <a name="output_vpc_endpoint_id"></a> [vpc\_endpoint\_id](#output\_vpc\_endpoint\_id) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
